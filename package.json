@@ -1,0 +1,7 @@
+{
+  "name": "com.dannykrendel.dialogue-system",
+  "displayName": "Dialogue System",
+  "version": "1.0.0",
+  "description": "A simple extensible dialogue system.",
+  "type": "library"
+}
