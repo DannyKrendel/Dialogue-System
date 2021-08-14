@@ -13,8 +13,9 @@ namespace DialogueSystem
         public event Action<DialogueData> Continued = _ => { };
         public event Action<int> ChoiceMade = _ => { };
 
+        public bool IsInDialogue { get; private set; }
+
         private IDialogueHandler _dialogueHandler;
-        private bool _dialogueStarted;
 
         #region Singleton stuff
 
@@ -33,7 +34,7 @@ namespace DialogueSystem
 
         public void StartDialogue(IDialogueHandler dialogueHandler)
         {
-            if (_dialogueStarted) return;
+            if (IsInDialogue) return;
 
             _dialogueHandler = dialogueHandler;
 
@@ -43,7 +44,7 @@ namespace DialogueSystem
                 return;
             }
 
-            _dialogueStarted = true;
+            IsInDialogue = true;
 
             Started();
 
@@ -52,7 +53,7 @@ namespace DialogueSystem
 
         public void Continue()
         {
-            if (!_dialogueStarted) return;
+            if (!IsInDialogue) return;
 
             if (_dialogueHandler.CanContinue)
             {
@@ -77,10 +78,10 @@ namespace DialogueSystem
 
         public void End()
         {
-            if (!_dialogueStarted) return;
+            if (!IsInDialogue) return;
 
             _dialogueHandler.ResetState();
-            _dialogueStarted = false;
+            IsInDialogue = false;
 
             Ended();
         }
